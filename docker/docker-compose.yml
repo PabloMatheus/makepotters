@@ -1,0 +1,49 @@
+version: "3.2"
+services:
+
+    nginx:
+        image: nginx:latest
+        container_name: nginx-potters-container
+        privileged: true
+        ports:
+            - 8000:8000
+        volumes:
+            - ../:/var/www/makepotters
+            - ./nginx/app-potters.conf:/etc/nginx/conf.d/default1.conf
+        networks:
+            - internal
+
+    php74:
+        build: php74
+        container_name: php74-container
+        privileged: true
+        volumes:
+            - ../:/var/www/makepotters
+        working_dir: /var/www/makepotters
+        ports:
+            - 9074:9000
+        networks:
+            - internal
+
+    mysql:
+        image: mysql:5.7
+        container_name: db-potters-container
+        environment:
+            MYSQL_ROOT_PASSWORD: "root"
+            MYSQL_DATABASE: potters
+        ports:
+            - "3306:3306"
+        networks:
+            - internal
+
+    redis:
+        image: redis
+        container_name: redis-potters-container
+        ports:
+            - 6379:6379
+        networks:
+            - internal
+
+networks:
+    internal:
+        driver: bridge
