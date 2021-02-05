@@ -17,12 +17,6 @@ class CharacterController extends Controller
      */
     private $characterService;
 
-    public function teste()
-    {
-        $service = new HouseService();
-        return $service->getHouse();
-    }
-
     public function __construct(CharacterService $characterService)
     {
         $this->characterService = $characterService;
